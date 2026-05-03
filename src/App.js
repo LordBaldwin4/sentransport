@@ -2,6 +2,9 @@ import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import ListeLignes from "./ListeLignes";
+import Statistique from "./Statistique";
+import Statistique2 from "./Statistique2";
+import Statistique3 from "./Statistique3";
 
 function App() {
   const lignes = [
@@ -36,6 +39,18 @@ function App() {
       <Header />
 
       <main className="contenu">
+        <p>
+          Bienvenue ! Cette application vous aide à trouver votre ligne de bus à
+          Dakar.
+        </p>
+
+        <h2>Le réseau DDD en chiffres</h2>
+        <div className="statistiques">
+          <Statistique />
+          <Statistique2 />
+          <Statistique3 />
+        </div>
+
         <ListeLignes lignes={lignes} />
       </main>
 

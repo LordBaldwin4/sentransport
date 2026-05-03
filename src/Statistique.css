@@ -1,0 +1,23 @@
+.statistique {
+  display: inline-block;
+  background-color: #f4f4f4;
+  border-left: 4px solid #0a6e31;
+  padding: 16px 24px;
+  margin: 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.statistique-chiffre {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0a6e31;
+}
+
+.statistique-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 4px;
+}

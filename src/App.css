@@ -15,6 +15,13 @@
   flex: 1;
 }
 
+.statistiques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 @media (max-width: 600px) {
   .contenu {
     padding: 12px;
