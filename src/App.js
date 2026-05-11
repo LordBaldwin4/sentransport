@@ -1,10 +1,18 @@
+import { useState } from "react";
 import "./App.css";
+
+import DetailLigne from "./DetailLigne";
 import Footer from "./Footer";
 import Header from "./Header";
+import LigneBus from "./LigneBus";
 import ListeLignes from "./ListeLignes";
+import Recherche from "./Recherche";
 import StatReseau from "./StatReseau";
 
 function App() {
+  const [recherche, setRecherche] = useState("");
+  const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+
   const lignes = [
     {
       id: 1,
@@ -13,6 +21,16 @@ function App() {
       arrivee: "Plateau",
       arrets: 14,
       couleur: "#e74c3c",
+      listeArrets: [
+        "Parcelles U14",
+        "Parcelles U10",
+        "Camberene",
+        "Patte d'Oie",
+        "Grand Dakar",
+        "Colobane",
+        "Ponty",
+        "Plateau",
+      ],
     },
     {
       id: 2,
@@ -21,6 +39,16 @@ function App() {
       arrivee: "Place Obélisque",
       arrets: 18,
       couleur: "#3498db",
+      listeArrets: [
+        "Guediawaye",
+        "Pikine",
+        "Thiaroye",
+        "Keur Massar",
+        "Grand Yoff",
+        "Parcelles",
+        "Liberte 6",
+        "Place Obélisque",
+      ],
     },
     {
       id: 3,
@@ -29,6 +57,14 @@ function App() {
       arrivee: "Medina",
       arrets: 12,
       couleur: "#2ecc71",
+      listeArrets: [
+        "Pikine Centre",
+        "Thiaroye Gare",
+        "Hann",
+        "Colobane",
+        "Fass",
+        "Medina",
+      ],
     },
     {
       id: 4,
@@ -37,6 +73,14 @@ function App() {
       arrivee: "Grand Dakar",
       arrets: 10,
       couleur: "#f1c40f",
+      listeArrets: [
+        "Ouakam Village",
+        "Mermoz",
+        "Fann",
+        "Point E",
+        "Liberte 5",
+        "Grand Dakar",
+      ],
     },
     {
       id: 5,
@@ -45,6 +89,14 @@ function App() {
       arrivee: "Colobane",
       arrets: 16,
       couleur: "#9b59b6",
+      listeArrets: [
+        "Almadies",
+        "Ngor",
+        "Yoff",
+        "Ouest Foire",
+        "Liberte 6",
+        "Colobane",
+      ],
     },
     {
       id: 6,
@@ -53,40 +105,96 @@ function App() {
       arrivee: "Sandaga",
       arrets: 11,
       couleur: "#e67e22",
+      listeArrets: [
+        "Yoff Village",
+        "Aeroport LSS",
+        "Parcelles U17",
+        "Grand Yoff",
+        "HLM",
+        "Sandaga",
+      ],
     },
     {
       id: 7,
       numero: "3",
       depart: "Fann",
-      arrivee: "Liberté",
-      arrets: 8,
+      arrivee: "Thiaroye",
+      arrets: 9,
       couleur: "#1abc9c",
+      listeArrets: [
+        "Fann Residence",
+        "Fann Urbain",
+        "Point E",
+        "Liberte 5",
+        "Liberte 6",
+        "Thiaroye",
+      ],
     },
     {
       id: 8,
-      numero: "18",
+      numero: "14",
       depart: "HLM",
-      arrivee: "Dieuppeul",
-      arrets: 9,
-      couleur: "#e91e63",
+      arrivee: "Plateau",
+      arrets: 13,
+      couleur: "#34495e",
+      listeArrets: [
+        "HLM Zone A",
+        "HLM Zone B",
+        "Patte d'Oie",
+        "Grand Dakar",
+        "Colobane",
+        "Plateau",
+      ],
     },
     {
       id: 9,
-      numero: "21",
+      numero: "25",
       depart: "Sicap",
-      arrivee: "Medina",
-      arrets: 13,
-      couleur: "#00bcd4",
+      arrivee: "Guediawaye",
+      arrets: 15,
+      couleur: "#c0392b",
+      listeArrets: [
+        "Sicap Liberte",
+        "Sicap Baobab",
+        "Liberte 6",
+        "Parcelles",
+        "Pikine",
+        "Guediawaye",
+      ],
     },
     {
       id: 10,
-      numero: "5",
+      numero: "6",
       depart: "Liberté 6",
-      arrivee: "Plateau",
-      arrets: 7,
-      couleur: "#ff5722",
+      arrivee: "Dakar Port",
+      arrets: 8,
+      couleur: "#16a085",
+      listeArrets: [
+        "Liberte 6 Centre",
+        "Liberte 5",
+        "Fann",
+        "Plateau",
+        "Dakar Port",
+      ],
     },
   ];
+
+  // 🔍 FILTRE RECHERCHE
+  const lignesFiltrees = lignes.filter(
+    (l) =>
+      l.depart.toLowerCase().includes(recherche.toLowerCase()) ||
+      l.arrivee.toLowerCase().includes(recherche.toLowerCase()) ||
+      l.numero.includes(recherche),
+  );
+
+  // 🖱️ SELECTION LIGNE
+  function handleClickLigne(ligne) {
+    if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
+      setLigneSelectionnee(null);
+    } else {
+      setLigneSelectionnee(ligne);
+    }
+  }
 
   return (
     <div className="App">
@@ -101,6 +209,36 @@ function App() {
         <h2>Le réseau DDD en chiffres</h2>
         <StatReseau lignes={lignes} />
 
+        {/* 🔎 RECHERCHE */}
+        <Recherche valeur={recherche} onChange={setRecherche} />
+
+        {/* 📊 RESULTATS */}
+        <p className="resultat-recherche">
+          {lignesFiltrees.length} ligne
+          {lignesFiltrees.length > 1 ? "s" : ""} trouvée
+          {lignesFiltrees.length > 1 ? "s" : ""}
+        </p>
+
+        {/* 🚍 LISTE FILTRÉE */}
+        {lignesFiltrees.map((ligne) => (
+          <LigneBus
+            key={ligne.id}
+            numero={ligne.numero}
+            depart={ligne.depart}
+            arrivee={ligne.arrivee}
+            arrets={ligne.arrets}
+            couleur={ligne.couleur}
+            estSelectionnee={
+              ligneSelectionnee && ligneSelectionnee.id === ligne.id
+            }
+            onClick={() => handleClickLigne(ligne)}
+          />
+        ))}
+
+        {/* 📍 DETAIL */}
+        {ligneSelectionnee && <DetailLigne ligne={ligneSelectionnee} />}
+
+        {/* 📋 LISTE COMPLÈTE (optionnel) */}
         <ListeLignes lignes={lignes} />
       </main>
 
