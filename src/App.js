@@ -5,13 +5,13 @@ import DetailLigne from "./DetailLigne";
 import Footer from "./Footer";
 import Header from "./Header";
 import LigneBus from "./LigneBus";
-import ListeLignes from "./ListeLignes";
 import Recherche from "./Recherche";
 import StatReseau from "./StatReseau";
 
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+  const [recherches, setRecherches] = useState(0);
 
   const lignes = [
     {
@@ -179,6 +179,11 @@ function App() {
     },
   ];
 
+  const handleRechercheChange = (valeur) => {
+    setRecherche(valeur);
+    setRecherches((prev) => prev + 1);
+  };
+
   // 🔍 FILTRE RECHERCHE
   const lignesFiltrees = lignes.filter(
     (l) =>
@@ -209,15 +214,22 @@ function App() {
         <h2>Le réseau DDD en chiffres</h2>
         <StatReseau lignes={lignes} />
 
+        <p className="compteur-recherche">
+          Vous avez effectué {recherches} recherche{recherches !== 1 ? "s" : ""}
+          .
+        </p>
+
         {/* 🔎 RECHERCHE */}
-        <Recherche valeur={recherche} onChange={setRecherche} />
+        <Recherche valeur={recherche} onChange={handleRechercheChange} />
 
         {/* 📊 RESULTATS */}
-        <p className="resultat-recherche">
-          {lignesFiltrees.length} ligne
-          {lignesFiltrees.length > 1 ? "s" : ""} trouvée
-          {lignesFiltrees.length > 1 ? "s" : ""}
-        </p>
+        {recherche && (
+          <p className="resultat-recherche">
+            {lignesFiltrees.length > 0
+              ? `${lignesFiltrees.length} ligne${lignesFiltrees.length !== 1 ? "s" : ""} trouvée${lignesFiltrees.length !== 1 ? "s" : ""}`
+              : "Aucune ligne trouvée"}
+          </p>
+        )}
 
         {/* 🚍 LISTE FILTRÉE */}
         {lignesFiltrees.map((ligne) => (
@@ -237,9 +249,6 @@ function App() {
 
         {/* 📍 DETAIL */}
         {ligneSelectionnee && <DetailLigne ligne={ligneSelectionnee} />}
-
-        {/* 📋 LISTE COMPLÈTE (optionnel) */}
-        <ListeLignes lignes={lignes} />
       </main>
 
       <Footer />

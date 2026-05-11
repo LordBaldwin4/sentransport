@@ -2,8 +2,16 @@
   margin-bottom: 20px;
 }
 
-.recherche-input {
+.recherche-bar {
+  display: flex;
+  align-items: center;
   width: 100%;
+  gap: 8px;
+}
+
+.recherche-input {
+  flex: 1;
+  min-width: 0;
   padding: 12px 16px;
   font-size: 1rem;
   border: 2px solid #dcdde1;
@@ -19,4 +27,20 @@
 
 .recherche-input::placeholder {
   color: #b2bec3;
+}
+
+.recherche-clear {
+  background: #0a6e31;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.recherche-clear:hover {
+  background: #084d22;
 }

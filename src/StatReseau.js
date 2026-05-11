@@ -8,9 +8,10 @@ function StatReseau({ lignes }) {
   const totalArrets = lignes.reduce((sum, ligne) => sum + ligne.arrets, 0);
 
   // Calcul de la ligne avec le plus d'arrêts
-  const lignePlusArrets = lignes.reduce((max, ligne) =>
-    ligne.arrets > max.arrets ? ligne : max,
-  );
+  const lignePlusArrets =
+    lignes.length > 0
+      ? lignes.reduce((max, ligne) => (ligne.arrets > max.arrets ? ligne : max))
+      : null;
 
   return (
     <div className="statistiques">
@@ -24,14 +25,16 @@ function StatReseau({ lignes }) {
         <span className="statistique-label">arrêts au total</span>
       </div>
 
-      <div className="statistique">
-        <span className="statistique-chiffre">
-          Ligne {lignePlusArrets.numero}
-        </span>
-        <span className="statistique-label">
-          ({lignePlusArrets.arrets} arrêts)
-        </span>
-      </div>
+      {lignePlusArrets && (
+        <div className="statistique">
+          <span className="statistique-chiffre">
+            Ligne {lignePlusArrets.numero}
+          </span>
+          <span className="statistique-label">
+            ({lignePlusArrets.arrets} arrêts)
+          </span>
+        </div>
+      )}
     </div>
   );
 }
