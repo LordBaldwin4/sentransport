@@ -206,8 +206,13 @@ function App() {
           Dakar.
         </p>
 
-        <h2>Le réseau DDD en chiffres</h2>
-        <StatReseau lignes={lignes} />
+        {/* 🌟 LIGNE 7 EN VEDETTE */}
+        <div style={{ backgroundColor: "#3498db", color: "white", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
+          <h2>Ligne 7 - Vedette du réseau</h2>
+          <p><strong>Trajet :</strong> {lignes[1].depart} → {lignes[1].arrivee}</p>
+          <p><strong>Nombre d'arrêts :</strong> {lignes[1].arrets} arrêts</p>
+          <p><strong>Communes visitées :</strong> {lignes[1].listeArrets.length} communes</p>
+        </div>
 
         {/* 🔎 RECHERCHE */}
         <Recherche valeur={recherche} onChange={setRecherche} />
